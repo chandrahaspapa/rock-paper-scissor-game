@@ -1,49 +1,52 @@
-from tkinter import*
-from PIL import Image,ImageTk
-from random import randint
+from tkinter import*  #to generate the graphical user interface
+from PIL import Image,ImageTk #to show the image 
+from random import randint # to generate random numbers
 
 
-root = Tk()
-root.title("rock paper scissors")
-root.configure(background="pink")
+graphical_interface = Tk() #Used to initialize Tkinter to create a window
+graphical_interface.title("rock paper scissors") #Giving the title as Rock Paper Scissor to the GUI
+graphical_interface.configure(background="pink") #Changing the background colour of the GUI to pink
 
 
-#picture
+#defining the picture of the player choice
 rock_img = ImageTk.PhotoImage(Image.open("rock.png"))
 paper_img = ImageTk.PhotoImage(Image.open("paper.png"))
 scissor_img = ImageTk.PhotoImage(Image.open("scissor.png"))
+#defining the picture of the computer random choice
 rock_img_comp = ImageTk.PhotoImage(Image.open("comp_rock.png"))
 paper_img_comp = ImageTk.PhotoImage(Image.open("comp_paper.png"))
 scissor_img_comp = ImageTk.PhotoImage(Image.open("comp_scissor.png"))
 
 
-#insert image
-user_label1 = Label(root,image=scissor_img,bg='pink')
-user_label1.grid(row=1,column=4)
-comp_label1 = Label(root,image=scissor_img_comp,bg='pink')
-comp_label1.grid(row=1,column=0)
+#inserting the initial image as scissors in the GUI
+player_label = Label(graphical_interface,image=scissor_img,bg='pink') 
+player_label.grid(row=1,column=4)
+computer_label = Label(graphical_interface,image=scissor_img_comp,bg='pink')
+computer_label.grid(row=1,column=0)
 
 
-playerScore = Label(root, text=0, font=100, bg="pink", fg="black")
-computerScore = Label(root, text=0, font=100, bg="pink", fg="black")
+#creating labels to show the scores and setting the initial scores as zero
+playerScore = Label(graphical_interface, text=0, font=100, bg="pink", fg="black")
+computerScore = Label(graphical_interface, text=0, font=100, bg="pink", fg="black")
 computerScore.grid(row=1, column=1)
 playerScore.grid(row=1,column=3)
 
 
-user_indicator = Label(root, font=50, text="USER", bg="#9b59b6", fg="white")
-comp_indicator = Label(root, font=50, text="COMPUTER", bg="#9b59b6", fg="white")
-user_indicator.grid(row=0, column=3)
-comp_indicator.grid(row=0,column=1)
+#creating labels to show the computer side and player side on the top
+player_indicator = Label(graphical_interface, font=50, text="PLAYER", bg="purple", fg="white")
+computer_indicator = Label(graphical_interface, font=50, text="COMPUTER", bg="purple", fg="white")
+player_indicator.grid(row=0, column=3)
+computer_indicator.grid(row=0,column=1)
 
 
-#messages
-msg = Label(root,font=50,bg='pink',fg ='white')
+#creating a label to show messages of the result(win or loose or tie)
+msg = Label(graphical_interface,font=50,bg='pink',fg ='white')
 msg.grid(row=3,column=2)
 
 
 def updateMessage(x):
     msg['text'] = x
-def updateUserScore():
+def updateplayerScore():
     score = int(playerScore["text"])
     score += 1
     playerScore["text"]=str(score)
@@ -61,21 +64,21 @@ def checkWinner(player,computer):
             updateCompScore()
         else:
             updateMessage ("You Win")
-            updateUserScore()
+            updateplayerScore()
     elif player == "paper":
         if computer == "scissor":
             updateMessage("You loose")
             updateCompScore()
         else:
             updateMessage("You Win")
-            updateUserScore()
+            updateplayerScore()
     elif player == "scissor":
         if computer == "rock":
             updateMessage("You loose")
             updateCompScore()
         else:
             updateMessage("You Win")
-            updateUserScore()
+            updateplayerScore()
     else:
         pass
 
@@ -83,28 +86,29 @@ def checkWinner(player,computer):
 choices = ["rock", "paper", "scissor"]
 
 
+#creating a function to update player choice by taking button input and computer choice by using random number generated
 def updateChoice(x):
-    compChoice = choices [randint(0, 2)]
-    if compChoice == "rock":
-        comp_label1.configure(image=rock_img_comp)
-    elif compChoice == "paper":
-        comp_label1.configure(image=paper_img_comp)
+    computerChoice = choices[randint(0, 2)]
+    if computerChoice == "rock":
+        computer_label.configure(image=rock_img_comp)
+    elif computerChoice == "paper":
+        computer_label.configure(image=paper_img_comp)
     else:
-        comp_label1.configure(image=scissor_img_comp)
+        computer_label.configure(image=scissor_img_comp)
 
     if x == "rock":
-        user_label1.configure(image=rock_img)
+        player_label.configure(image=rock_img)
     elif x == "paper":
-        user_label1.configure(image=paper_img)
+        player_label.configure(image=paper_img)
     else:
-        user_label1.configure(image=scissor_img)
-    checkWinner(x,compChoice)
+        player_label.configure(image=scissor_img)
+    checkWinner(x,computerChoice)
 
 
-#buttons
-rock = Button(root, width=20, height=2, text="ROCK",bg="#FF3E4D", fg="white",command = lambda:updateChoice("rock")).grid(row=2, column=1)
-paper = Button(root, width=20, height=2, text="PAPER",bg="#FAD02E", fg="white",command = lambda:updateChoice("paper")).grid(row=2, column=2)
-scissor = Button(root, width=20, height=2, text="SCISSOR", bg="#0ABDE3",fg="white",command = lambda:updateChoice("scissor")).grid(row=2,column=3)
+#inserting buttons to take the player choice and commanding to update the player label
+rock = Button(graphical_interface, width=20, height=2, text="ROCK",bg="#FF3E4D", fg="white",command = lambda:updateChoice("rock")).grid(row=2, column=1)
+paper = Button(graphical_interface, width=20, height=2, text="PAPER",bg="#FAD02E", fg="white",command = lambda:updateChoice("paper")).grid(row=2, column=2)
+scissor = Button(graphical_interface, width=20, height=2, text="SCISSOR", bg="#0ABDE3",fg="white",command = lambda:updateChoice("scissor")).grid(row=2,column=3)
 
 
-root.mainloop()
+graphical_interface.mainloop()
